@@ -1,0 +1,37 @@
+plugins {
+  id 'application'
+  id 'org.openjfx.javafxplugin' version '0.0.8'
+  id 'java'
+}
+
+mainClassName = 'com.example.musicvisualizer.MusicVisualizerApp'
+
+sourceCompatibility = 15
+targetCompatibility = 15
+
+println 'This is executed during configuration phase'
+
+task configured {
+  println 'The project is configured'
+}
+
+javafx {
+  version = "15"
+  modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media']
+}
+
+repositories {
+  jcenter()
+  mavenCentral()
+}
+
+dependencies {
+  //compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+//  implementation files('libs/*.jar')
+//  implementation files('javafx-sdk/lib/*.jar')
+//  runtimeOnly files('libs/lib1.jar', 'libs/lib2.jar')
+  testImplementation('junit:junit:4.13')
+}
+test {
+  useJUnit()
+}
