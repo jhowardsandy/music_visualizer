@@ -4,7 +4,7 @@ Class project for CS. --TODO: Fill this out
 
 ## Project contributors:
 - Justin Howard
-- Others added here.....
+- Rianna McIntyre
 
 ## Installation
 
