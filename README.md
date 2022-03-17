@@ -4,8 +4,8 @@ Class project for CS. --TODO: Fill this out
 
 ## Project contributors:
 - Justin Howard
+- Rianna McIntyre
 - Malcolm Bailey
-- Rianna
 - Ian Tai
 - Saule Buhler
 - James
@@ -16,7 +16,7 @@ Class project for CS. --TODO: Fill this out
 Open Intellij and select open project, browse to the build.gradle file, and selet to open as project.
 
 ### Eclipse
-Open eclipse and select File -> Import -> Gradle -> Existing Gradle Project, then do something to get rid of the JavaFX error.
+Open eclipse and select File -> Import -> Gradle -> Existing Gradle Project.
 
 
 ## Usage
