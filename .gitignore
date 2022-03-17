@@ -3,3 +3,8 @@
 build/
 target/
 .DS_Store
+.eclipse/
+.classpath
+.project
+.settings/
+bin/
