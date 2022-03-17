@@ -1,0 +1,23 @@
+.root{
+    -fx-text-fill: white;
+}
+
+#mainPane{
+    -fx-background-color:  linear-gradient(to top, Black,Black,Darkgray,White,Black);
+}
+
+.button{
+    -fx-background-color: linear-gradient(to top,DarkSlateBlue,BlueViolet,BlueViolet,DarkSlateBlue);
+    -fx-font-size: 10;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50%;
+}
+
+.slider .thumb {
+    -fx-background-color: linear-gradient(to top,DarkSlateBlue,BlueViolet);
+}
+
+.progress-bar{
+-fx-accent: BlueViolet;
+-fx-control-inner-background:#ffffffd9
+}
