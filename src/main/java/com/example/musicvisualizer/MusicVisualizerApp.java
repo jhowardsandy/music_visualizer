@@ -29,6 +29,7 @@ public class MusicVisualizerApp extends Application {
             public void handle(WindowEvent event) {
                 Platform.exit();
                 System.exit(0);
+
             }
         });
     }
