@@ -113,7 +113,7 @@ public class MusicVisualizerController implements Initializable {
     public void playPauseMedia(){
         if(isPaused == true){
         beginTimer();
-        songMediaPlayer.setAudioSpectrumListener(new SpektrumListener());
+        songMediaPlayer.setAudioSpectrumListener(new SpectrumListener());
         songMediaPlayer.setAudioSpectrumInterval(.5);
         songMediaPlayer.play();
         songMediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
@@ -225,11 +225,14 @@ public class MusicVisualizerController implements Initializable {
         progBarTimer.cancel();
     }
 
-    public class SpektrumListener implements AudioSpectrumListener {
+    public class SpectrumListener implements AudioSpectrumListener {
+
 
         @Override
         public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
-
+            for(int i=0; i<magnitudes.length; i++){
+                System.out.println(magnitudes[i]);
+            }
         }
     }
 }
