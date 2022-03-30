@@ -113,6 +113,8 @@ public class MusicVisualizerController implements Initializable {
     public void playPauseMedia(){
         if(isPaused == true){
         beginTimer();
+        songMediaPlayer.setAudioSpectrumListener(new SpektrumListener());
+        songMediaPlayer.setAudioSpectrumInterval(.5);
         songMediaPlayer.play();
         songMediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
         isPaused= false;
