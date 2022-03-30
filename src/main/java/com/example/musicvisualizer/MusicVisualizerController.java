@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.SVGPath;
@@ -220,5 +221,13 @@ public class MusicVisualizerController implements Initializable {
     public void cancelTimer(){
         isPlaying = false;
         progBarTimer.cancel();
+    }
+
+    public class SpektrumListener implements AudioSpectrumListener {
+
+        @Override
+        public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
+
+        }
     }
 }

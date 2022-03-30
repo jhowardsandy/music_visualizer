@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioSpectrumListener;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -37,4 +38,7 @@ public class MusicVisualizerApp extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+
+
 }
