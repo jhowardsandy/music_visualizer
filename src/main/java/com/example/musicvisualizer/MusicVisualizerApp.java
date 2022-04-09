@@ -16,19 +16,19 @@ import java.io.IOException;
 
 public class MusicVisualizerApp extends Application {
 	// all for the amplitudeProcessor class
-	private Media media;
-	private MediaPlayer mediaPlayer;
-	private File file = new File("src/main/resources/music/Perfumed Eves - Masayoshi Soken.mp3");
-	private String MEDIA_URL = file.toURI().toString();
+//	private Media media;
+//	private MediaPlayer mediaPlayer;
+//	private File file = new File("src/main/resources/music/Perfumed Eves - Masayoshi Soken.mp3");
+//	private String MEDIA_URL = file.toURI().toString();
 
 	@Override
 	public void start(Stage mainStage) throws IOException {
 		// this works, now I've gotta figure out how to integrate it with the controller.
-		media = new Media(MEDIA_URL);
-		mediaPlayer = new MediaPlayer(media);
-		amplitudeProcessor ampProcessor = new amplitudeProcessor(mediaPlayer);
-		ampProcessor.addListener();
-		mediaPlayer.setAutoPlay(true);
+//		media = new Media(MEDIA_URL);
+//		mediaPlayer = new MediaPlayer(media);
+//		amplitudeProcessor ampProcessor = new amplitudeProcessor(mediaPlayer);
+//		ampProcessor.addListener();
+//		mediaPlayer.setAutoPlay(true);
 
 		FXMLLoader fxmlLoader = new FXMLLoader(MusicVisualizerApp.class.getResource("main-ui.fxml"));
 		Scene mainScene = new Scene(fxmlLoader.load());
