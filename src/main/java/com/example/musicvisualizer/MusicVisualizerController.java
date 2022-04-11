@@ -75,7 +75,8 @@ public class MusicVisualizerController implements Initializable {
 	private MediaPlayer songMediaPlayer;
 
 	@FXML
-	private Rectangle rec, rec1, rec2, rec3, rec4;
+	private Rectangle rec, rec1, rec2, rec3, rec4, rec5, rec6, rec7, rec8, rec9, rec10, rec11;
+	int amplitude;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -132,13 +133,22 @@ public class MusicVisualizerController implements Initializable {
 //				rec.setHeight(correctedMag[0]);
 			}
 //			System.out.println(correctedMag[0]);
+			
 			// start of setting the rectangle's heights to the song.
+//			amplitude = correctedMag[0] * 15;
+			
 			rec.setHeight(correctedMag[0] * 15);
-			rec1.setHeight(correctedMag[0] * 10);
-			rec2.setHeight(correctedMag[0] * 8);
-			rec3.setHeight(correctedMag[0] * 5);
-			rec4.setHeight(correctedMag[0] * 3);
-
+			rec1.setHeight(correctedMag[0] * 13);
+			rec2.setHeight(correctedMag[0] * 11);
+			rec3.setHeight(correctedMag[0] * 9);
+			rec4.setHeight(correctedMag[0] * 8);
+			rec5.setHeight(correctedMag[0] * 7);
+			rec6.setHeight(correctedMag[0] * 6);
+			rec7.setHeight(correctedMag[0] * 5);
+			rec8.setHeight(correctedMag[0] * 4);
+			rec9.setHeight(correctedMag[0] * 3);
+			rec10.setHeight(correctedMag[0] * 2);
+			rec11.setHeight(correctedMag[0] * 1);
 		}
 	}
 
