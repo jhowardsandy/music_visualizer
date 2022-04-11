@@ -11,8 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -72,7 +74,8 @@ public class MusicVisualizerController implements Initializable {
 	private Media songMedia;
 	private MediaPlayer songMediaPlayer;
 
-	// amplitudeProcessing
+	@FXML
+	private Rectangle rec, rec1, rec2, rec3, rec4;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -83,9 +86,7 @@ public class MusicVisualizerController implements Initializable {
 			for (File oneFile : songFiles) {
 				songList.add(oneFile);
 			}
-		}
-
-		else {
+		} else {
 			System.err.print("ERROR: Song directory is incorrect or empty!");
 		}
 		// the songList.get(songNumber).toURI().toString()) bit is the MEDIA_URL in the
@@ -96,8 +97,13 @@ public class MusicVisualizerController implements Initializable {
 		songLabel.setText(songList.get(songNumber).getName().replaceFirst("[.][^.]+$", "")); // Filename is included,
 																								// extension is
 		// start of amplitude audio data processing. // truncated.
-		amplitudeProcessor ampProcessor = new amplitudeProcessor(songMediaPlayer);
-		ampProcessor.addListener();
+
+		// Testing
+
+		// Testing
+//		amplitudeProcessor ampProcessor = new amplitudeProcessor(songMediaPlayer);
+//		ampProcessor.addListener();
+		songMediaPlayer.setAudioSpectrumListener(new SpektrumListener());
 
 		volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
@@ -106,6 +112,34 @@ public class MusicVisualizerController implements Initializable {
 			}
 		});
 
+	}
+
+	public class SpektrumListener implements AudioSpectrumListener {
+		@Override
+		public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
+			int[] correctedMag = new int[magnitudes.length];
+			for (int i = 0; i < magnitudes.length; i += 10) {
+//				magnitudes[i] = magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold();
+//				System.out.println(magnitudes[i]);
+				if (magnitudes[i] - songMediaPlayer.getAudioSpectrumThreshold() > 0) {
+//					System.out.println(Math.floor(magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold()));
+					correctedMag[i] = (int) Math.floor(magnitudes[i] - songMediaPlayer.getAudioSpectrumThreshold());
+
+				}
+//				rec.setHeight(Math.floor(magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold()));
+//				System.out.println("will this print also?");
+//				System.out.println(mediaPlayer.getAudioSpectrumThreshold());
+//				rec.setHeight(correctedMag[0]);
+			}
+//			System.out.println(correctedMag[0]);
+			// start of setting the rectangle's heights to the song.
+			rec.setHeight(correctedMag[0] * 15);
+			rec1.setHeight(correctedMag[0] * 10);
+			rec2.setHeight(correctedMag[0] * 8);
+			rec3.setHeight(correctedMag[0] * 5);
+			rec4.setHeight(correctedMag[0] * 3);
+
+		}
 	}
 
 	/**
@@ -162,8 +196,10 @@ public class MusicVisualizerController implements Initializable {
 		songLabel.setText(songList.get(songNumber).getName().replaceFirst("[.][^.]+$", "")); // Filename is included,
 																								// extension is
 																								// truncated.
-		amplitudeProcessor ampProcessor = new amplitudeProcessor(songMediaPlayer);
-		ampProcessor.addListener();
+		// Allows raw data to be displayed when choosing the next song.
+//		amplitudeProcessor ampProcessor = new amplitudeProcessor(songMediaPlayer);
+//		ampProcessor.addListener();
+		songMediaPlayer.setAudioSpectrumListener(new SpektrumListener());
 
 		isPaused = true;
 		playPauseMedia(); // autoplays next song
@@ -191,8 +227,10 @@ public class MusicVisualizerController implements Initializable {
 		songMediaPlayer = new MediaPlayer(songMedia);
 		songLabel.setText(songList.get(songNumber).getName().replaceFirst("[.][^.]+$", "")); // Filename is included,
 																								// truncated.
-		amplitudeProcessor ampProcessor = new amplitudeProcessor(songMediaPlayer);
-		ampProcessor.addListener();
+		// Allows raw data to be displayed when choosing the previous song.
+//		amplitudeProcessor ampProcessor = new amplitudeProcessor(songMediaPlayer);
+//		ampProcessor.addListener();
+		songMediaPlayer.setAudioSpectrumListener(new SpektrumListener());
 
 		isPaused = true;
 		playPauseMedia(); // autoplays next song

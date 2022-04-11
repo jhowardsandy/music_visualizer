@@ -1,69 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.media.MediaView?>
-<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane" maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" prefHeight="500.0" prefWidth="600.0" stylesheets="@../../../stylesheets/visualizerViolet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.musicvisualizer.MusicVisualizerController">
-   <children>
-      <Label fx:id="songLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="354.0" layoutY="406.0" prefHeight="55.0" prefWidth="215.0" text="[Choose a Song]" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font size="11.0" />
-         </font></Label>
-      <ProgressBar fx:id="songProgressBar" layoutX="10.0" layoutY="385.0" prefWidth="580.0" progress="0.0" style="-fx-accent: blueviolet;" />
-      <Button fx:id="playPauseBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="143.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#playPauseMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="10.0" />
-         </font>
-         <graphic>
-            <SVGPath fx:id="playPauseSVG" content="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z" fill="#ffffffd9" scaleX="0.05" scaleY="0.05" scaleZ="0.05" translateX="2.0" />
-         </graphic></Button>
-      <Button fx:id="restartBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#restartMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="10.0" />
-         </font>
-         <graphic>
-            <SVGPath fx:id="resetSVG" content="M449.9 39.96l-48.5 48.53C362.5 53.19 311.4 32 256 32C161.5 32 78.59 92.34 49.58 182.2c-5.438 16.81 3.797 34.88 20.61 40.28c16.97 5.5 34.86-3.812 40.3-20.59C130.9 138.5 189.4 96 256 96c37.96 0 73 14.18 100.2 37.8L311.1 178C295.1 194.8 306.8 223.4 330.4 224h146.9C487.7 223.7 496 215.3 496 204.9V59.04C496 34.99 466.9 22.95 449.9 39.96zM441.8 289.6c-16.94-5.438-34.88 3.812-40.3 20.59C381.1 373.5 322.6 416 256 416c-37.96 0-73-14.18-100.2-37.8L200 334C216.9 317.2 205.2 288.6 181.6 288H34.66C24.32 288.3 16 296.7 16 307.1v145.9c0 24.04 29.07 36.08 46.07 19.07l48.5-48.53C149.5 458.8 200.6 480 255.1 480c94.45 0 177.4-60.34 206.4-150.2C467.9 313 458.6 294.1 441.8 289.6z" fill="#ffffffd9" scaleX="0.05" scaleY="0.05" scaleZ="0.05" />
-         </graphic></Button>
-      <MediaView fx:id="visualizerMediaViewer" fitHeight="360.0" fitWidth="580.0" layoutX="10.0" layoutY="10.0" />
-      <Button fx:id="fileBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="275.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#fileChooseMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="10.0" />
-         </font>
-         <graphic>
-            <SVGPath fx:id="resetSVG11" content="M147.8 192H480V144C480 117.5 458.5 96 432 96h-160l-64-64h-160C21.49 32 0 53.49 0 80v328.4l90.54-181.1C101.4 205.6 123.4 192 147.8 192zM543.1 224H147.8C135.7 224 124.6 230.8 119.2 241.7L0 480h447.1c12.12 0 23.2-6.852 28.62-17.69l96-192C583.2 249 567.7 224 543.1 224z" fill="#ffffff80" scaleX="0.05" scaleY="0.05" scaleZ="0.05" translateX="2.0" />
-         </graphic></Button>
-      <Slider fx:id="volumeSlider" layoutX="374.0" layoutY="458.0" prefHeight="15.0" prefWidth="180.0" value="50.0" />
-      <Label fx:id="volLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="341.0" layoutY="446.0" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font size="10.0" />
-         </font>
-         <graphic>
-            <SVGPath fx:id="resetSVG12" content="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zm233.32-51.08c-11.17-7.33-26.18-4.24-33.51 6.95-7.34 11.17-4.22 26.18 6.95 33.51 66.27 43.49 105.82 116.6 105.82 195.58 0 78.98-39.55 152.09-105.82 195.58-11.17 7.32-14.29 22.34-6.95 33.5 7.04 10.71 21.93 14.56 33.51 6.95C528.27 439.58 576 351.33 576 256S528.27 72.43 448.35 19.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.54 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z" fill="#ffffffd9" scaleX="0.03" scaleY="0.03" />
-         </graphic>
-      </Label>
-      <Button fx:id="nextBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="208.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#nextMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="10.0" />
-         </font>
-         <graphic>
-            <SVGPath fx:id="resetSVG1" content="M287.1 447.1c17.67 0 31.1-14.33 31.1-32V96.03c0-17.67-14.33-32-32-32c-17.67 0-31.1 14.33-31.1 31.1v319.9C255.1 433.6 270.3 447.1 287.1 447.1zM52.51 440.6l192-159.1c7.625-6.436 11.43-15.53 11.43-24.62c0-9.094-3.809-18.18-11.43-24.62l-192-159.1C31.88 54.28 0 68.66 0 96.03v319.9C0 443.3 31.88 457.7 52.51 440.6z" fill="#ffffffd9" scaleX="0.05" scaleY="0.05" scaleZ="0.05" />
-         </graphic>
-      </Button>
-      <Button fx:id="previousBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="77.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#previousMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="10.0" />
-         </font>
-         <graphic>
-            <SVGPath fx:id="backSVG" content="M31.1 64.03c-17.67 0-31.1 14.33-31.1 32v319.9c0 17.67 14.33 32 32 32C49.67 447.1 64 433.6 64 415.1V96.03C64 78.36 49.67 64.03 31.1 64.03zM267.5 71.41l-192 159.1C67.82 237.8 64 246.9 64 256c0 9.094 3.82 18.18 11.44 24.62l192 159.1c20.63 17.12 52.51 2.75 52.51-24.62v-319.9C319.1 68.66 288.1 54.28 267.5 71.41z" fill="#ffffffd9" scaleX="0.05" scaleY="0.05" scaleZ="0.05" />
-         </graphic>
-      </Button>
-      <Ellipse fill="DODGERBLUE" layoutX="249.0" layoutY="191.0" radiusX="144.0" radiusY="101.0" stroke="BLACK" strokeType="INSIDE" />
-   </children>
+	<children>
+		<Label fx:id="songLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="354.0" layoutY="406.0" prefHeight="55.0" prefWidth="215.0" text="[Choose a Song]" textAlignment="CENTER" textFill="WHITE">
+			<font>
+				<Font size="11.0" />
+			</font>
+		</Label>
+		<Button fx:id="playPauseBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="143.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#playPauseMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="10.0" />
+			</font>
+			<graphic>
+				<SVGPath fx:id="playPauseSVG" content="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z" fill="#ffffffd9" scaleX="0.05" scaleY="0.05" scaleZ="0.05" translateX="2.0" />
+			</graphic>
+		</Button>
+		<Button fx:id="restartBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#restartMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="10.0" />
+			</font>
+			<graphic>
+				<SVGPath fx:id="resetSVG" content="M449.9 39.96l-48.5 48.53C362.5 53.19 311.4 32 256 32C161.5 32 78.59 92.34 49.58 182.2c-5.438 16.81 3.797 34.88 20.61 40.28c16.97 5.5 34.86-3.812 40.3-20.59C130.9 138.5 189.4 96 256 96c37.96 0 73 14.18 100.2 37.8L311.1 178C295.1 194.8 306.8 223.4 330.4 224h146.9C487.7 223.7 496 215.3 496 204.9V59.04C496 34.99 466.9 22.95 449.9 39.96zM441.8 289.6c-16.94-5.438-34.88 3.812-40.3 20.59C381.1 373.5 322.6 416 256 416c-37.96 0-73-14.18-100.2-37.8L200 334C216.9 317.2 205.2 288.6 181.6 288H34.66C24.32 288.3 16 296.7 16 307.1v145.9c0 24.04 29.07 36.08 46.07 19.07l48.5-48.53C149.5 458.8 200.6 480 255.1 480c94.45 0 177.4-60.34 206.4-150.2C467.9 313 458.6 294.1 441.8 289.6z" fill="#ffffffd9" scaleX="0.05" scaleY="0.05" scaleZ="0.05" />
+			</graphic>
+		</Button>
+		<MediaView fx:id="visualizerMediaViewer" fitHeight="360.0" fitWidth="580.0" layoutX="10.0" layoutY="10.0" />
+		<Button fx:id="fileBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="275.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#fileChooseMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="10.0" />
+			</font>
+			<graphic>
+				<SVGPath fx:id="resetSVG11" content="M147.8 192H480V144C480 117.5 458.5 96 432 96h-160l-64-64h-160C21.49 32 0 53.49 0 80v328.4l90.54-181.1C101.4 205.6 123.4 192 147.8 192zM543.1 224H147.8C135.7 224 124.6 230.8 119.2 241.7L0 480h447.1c12.12 0 23.2-6.852 28.62-17.69l96-192C583.2 249 567.7 224 543.1 224z" fill="#ffffff80" scaleX="0.05" scaleY="0.05" scaleZ="0.05" translateX="2.0" />
+			</graphic>
+		</Button>
+		<Slider fx:id="volumeSlider" layoutX="374.0" layoutY="458.0" prefHeight="15.0" prefWidth="180.0" value="50.0" />
+		<Label fx:id="volLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="341.0" layoutY="446.0" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER" textFill="WHITE">
+			<font>
+				<Font size="10.0" />
+			</font>
+			<graphic>
+				<SVGPath fx:id="resetSVG12" content="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zm233.32-51.08c-11.17-7.33-26.18-4.24-33.51 6.95-7.34 11.17-4.22 26.18 6.95 33.51 66.27 43.49 105.82 116.6 105.82 195.58 0 78.98-39.55 152.09-105.82 195.58-11.17 7.32-14.29 22.34-6.95 33.5 7.04 10.71 21.93 14.56 33.51 6.95C528.27 439.58 576 351.33 576 256S528.27 72.43 448.35 19.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.54 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z" fill="#ffffffd9" scaleX="0.03" scaleY="0.03" />
+			</graphic>
+		</Label>
+		<Button fx:id="nextBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="208.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#nextMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="10.0" />
+			</font>
+			<graphic>
+				<SVGPath fx:id="resetSVG1" content="M287.1 447.1c17.67 0 31.1-14.33 31.1-32V96.03c0-17.67-14.33-32-32-32c-17.67 0-31.1 14.33-31.1 31.1v319.9C255.1 433.6 270.3 447.1 287.1 447.1zM52.51 440.6l192-159.1c7.625-6.436 11.43-15.53 11.43-24.62c0-9.094-3.809-18.18-11.43-24.62l-192-159.1C31.88 54.28 0 68.66 0 96.03v319.9C0 443.3 31.88 457.7 52.51 440.6z" fill="#ffffffd9" scaleX="0.05" scaleY="0.05" scaleZ="0.05" />
+			</graphic>
+		</Button>
+		<Button fx:id="previousBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="77.0" layoutY="415.0" maxHeight="62.0" maxWidth="62.0" minHeight="62.0" minWidth="62.0" mnemonicParsing="false" onAction="#previousMedia" prefHeight="62.0" prefWidth="62.0" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="10.0" />
+			</font>
+			<graphic>
+				<SVGPath fx:id="backSVG" content="M31.1 64.03c-17.67 0-31.1 14.33-31.1 32v319.9c0 17.67 14.33 32 32 32C49.67 447.1 64 433.6 64 415.1V96.03C64 78.36 49.67 64.03 31.1 64.03zM267.5 71.41l-192 159.1C67.82 237.8 64 246.9 64 256c0 9.094 3.82 18.18 11.44 24.62l192 159.1c20.63 17.12 52.51 2.75 52.51-24.62v-319.9C319.1 68.66 288.1 54.28 267.5 71.41z" fill="#ffffffd9" scaleX="0.05" scaleY="0.05" scaleZ="0.05" />
+			</graphic>
+		</Button>
+		<Rectangle fx:id="rec" arcHeight="5.0" arcWidth="5.0" fill="#84b9c2" height="360.0" layoutX="10.0" stroke="BLACK" strokeType="INSIDE" width="34.0">
+         <rotationAxis>
+            <Point3D x="180.0" />
+         </rotationAxis></Rectangle>
+      <ProgressBar fx:id="songProgressBar" layoutX="7.0" layoutY="377.0" prefHeight="18.0" prefWidth="587.0" progress="0.0" />
+      <Rectangle fx:id="rec1" arcHeight="5.0" arcWidth="5.0" fill="#84b9c2" height="360.0" layoutX="60.0" stroke="BLACK" strokeType="INSIDE" width="34.0">
+         <rotationAxis>
+            <Point3D x="180.0" z="1.0" />
+         </rotationAxis>
+      </Rectangle>
+      <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#84b9c2" height="360.0" layoutX="108.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
+      <Rectangle fx:id="rec3" arcHeight="5.0" arcWidth="5.0" fill="#84b9c2" height="360.0" layoutX="157.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
+      <Rectangle fx:id="rec4" arcHeight="5.0" arcWidth="5.0" fill="#84b9c2" height="360.0" layoutX="208.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
+	</children>
 </AnchorPane>
