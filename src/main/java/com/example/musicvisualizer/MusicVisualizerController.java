@@ -78,7 +78,8 @@ public class MusicVisualizerController implements Initializable {
 
 	@FXML
 	private Circle circle;
-	int circle_radius = 50;
+	int CIRCLE_MAX_RADIUS = 120;
+	int CIRCLE_MIN_RADIUS = 40;
 	
 	@FXML
 	private Line[] lines;
@@ -88,7 +89,7 @@ public class MusicVisualizerController implements Initializable {
 	double avg_magnitude = 0;
 	int magnitude_measure_count = 0;
 	
-	float smoothingFactor = 0.5f;
+	float smoothingFactor = 0.6f;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -150,10 +151,10 @@ public class MusicVisualizerController implements Initializable {
 			avg_magnitude = (magnitude_measure_count * avg_magnitude + current_mag)/(magnitude_measure_count + 1);
 			
 			double smoothed_magnitude = (current_mag) * (1-smoothingFactor) + avg_magnitude * smoothingFactor;
-			circle_radius = (int) ((smoothed_magnitude - avg_magnitude) *(120-50) + 50);
+			int new_radius = (int) ((smoothed_magnitude - avg_magnitude) *(CIRCLE_MAX_RADIUS-CIRCLE_MIN_RADIUS) + CIRCLE_MIN_RADIUS);
 			
 			
-			UpdateCircleRadius(circle_radius);
+			UpdateCircleRadius(new_radius);
 			
 		}
 	}
@@ -304,8 +305,8 @@ public class MusicVisualizerController implements Initializable {
 	
 	private void UpdateCircleRadius(int radius) {
 	
-		if(radius > 150) radius = 150;
-		if (radius < 50) radius = 50;
+		if(radius > CIRCLE_MAX_RADIUS) radius = CIRCLE_MAX_RADIUS;
+		if (radius < CIRCLE_MIN_RADIUS) radius = CIRCLE_MIN_RADIUS;
 		circle.setRadius(radius);
 	}
 }
