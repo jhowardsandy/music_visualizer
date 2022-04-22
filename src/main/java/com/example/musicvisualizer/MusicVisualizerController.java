@@ -14,6 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
@@ -75,8 +77,18 @@ public class MusicVisualizerController implements Initializable {
 	private MediaPlayer songMediaPlayer;
 
 	@FXML
-	private Rectangle rec, rec1, rec2, rec3, rec4, rec5, rec6, rec7, rec8, rec9, rec10, rec11;
+	private Circle circle;
+	int circle_radius = 50;
+	
+	@FXML
+	private Line[] lines;
 	int amplitude;
+	
+	//avg_magnitude runs a rolling average 
+	double avg_magnitude = 0;
+	int magnitude_measure_count = 0;
+	
+	float smoothingFactor = 0.5f;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -95,6 +107,7 @@ public class MusicVisualizerController implements Initializable {
 		songMedia = new Media(songList.get(songNumber).toURI().toString());
 
 		songMediaPlayer = new MediaPlayer(songMedia);
+		songMediaPlayer.setAudioSpectrumThreshold(-100);
 		songLabel.setText(songList.get(songNumber).getName().replaceFirst("[.][^.]+$", "")); // Filename is included,
 																								// extension is
 		// start of amplitude audio data processing. // truncated.
@@ -118,37 +131,30 @@ public class MusicVisualizerController implements Initializable {
 	public class SpektrumListener implements AudioSpectrumListener {
 		@Override
 		public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
-			int[] correctedMag = new int[magnitudes.length];
-			for (int i = 0; i < magnitudes.length; i += 10) {
-//				magnitudes[i] = magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold();
-//				System.out.println(magnitudes[i]);
-				if (magnitudes[i] - songMediaPlayer.getAudioSpectrumThreshold() > 0) {
-//					System.out.println(Math.floor(magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold()));
-					correctedMag[i] = (int) Math.floor(magnitudes[i] - songMediaPlayer.getAudioSpectrumThreshold());
+			
+			double[] correctedMag = new double[magnitudes.length];
+			double correctedMagSum = 0;
+			
+			for (int i = 0; i < magnitudes.length; i ++) {
 
+				if (magnitudes[i] - songMediaPlayer.getAudioSpectrumThreshold() > 0) {
+
+					correctedMag[i] = Math.floor(magnitudes[i] - songMediaPlayer.getAudioSpectrumThreshold());
+					correctedMagSum += correctedMag[i];
 				}
-//				rec.setHeight(Math.floor(magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold()));
-//				System.out.println("will this print also?");
-//				System.out.println(mediaPlayer.getAudioSpectrumThreshold());
-//				rec.setHeight(correctedMag[0]);
+
 			}
-//			System.out.println(correctedMag[0]);
+	
+			magnitude_measure_count++;
+			double current_mag  = correctedMagSum / magnitudes.length;
+			avg_magnitude = (magnitude_measure_count * avg_magnitude + current_mag)/(magnitude_measure_count + 1);
 			
-			// start of setting the rectangle's heights to the song.
-//			amplitude = correctedMag[0] * 15;
+			double smoothed_magnitude = (current_mag) * (1-smoothingFactor) + avg_magnitude * smoothingFactor;
+			circle_radius = (int) ((smoothed_magnitude - avg_magnitude) *(120-50) + 50);
 			
-			rec.setHeight(correctedMag[0] * 15);
-			rec1.setHeight(correctedMag[0] * 13);
-			rec2.setHeight(correctedMag[0] * 11);
-			rec3.setHeight(correctedMag[0] * 9);
-			rec4.setHeight(correctedMag[0] * 8);
-			rec5.setHeight(correctedMag[0] * 7);
-			rec6.setHeight(correctedMag[0] * 6);
-			rec7.setHeight(correctedMag[0] * 5);
-			rec8.setHeight(correctedMag[0] * 4);
-			rec9.setHeight(correctedMag[0] * 3);
-			rec10.setHeight(correctedMag[0] * 2);
-			rec11.setHeight(correctedMag[0] * 1);
+			
+			UpdateCircleRadius(circle_radius);
+			
 		}
 	}
 
@@ -176,6 +182,9 @@ public class MusicVisualizerController implements Initializable {
 	 * Restarts the music.
 	 */
 	public void restartMedia() {
+		
+		resetSongParams();
+		
 		songProgressBar.setProgress(0);
 		songMediaPlayer.seek(Duration.seconds(0));
 
@@ -188,6 +197,9 @@ public class MusicVisualizerController implements Initializable {
 	 * Stops the current song and then plays the previous song on the playlist.
 	 */
 	public void previousMedia() {
+		
+		resetSongParams();
+		
 		if (songNumber > 0) {
 			songNumber -= 1;
 			songMediaPlayer.stop();
@@ -219,6 +231,8 @@ public class MusicVisualizerController implements Initializable {
 	 * Stops the current song and then plays the next song on the playlist.
 	 */
 	public void nextMedia() {
+		
+		resetSongParams();
 
 		if (songNumber < songList.size() - 1) {
 			songNumber += 1;
@@ -280,5 +294,18 @@ public class MusicVisualizerController implements Initializable {
 	public void cancelTimer() {
 		isPlaying = false;
 		progBarTimer.cancel();
+	}
+	
+	private void resetSongParams() {
+		
+		avg_magnitude = 0;
+		magnitude_measure_count = 0;
+	}
+	
+	private void UpdateCircleRadius(int radius) {
+	
+		if(radius > 150) radius = 150;
+		if (radius < 50) radius = 50;
+		circle.setRadius(radius);
 	}
 }

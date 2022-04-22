@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.media.MediaView?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" prefHeight="500.0" prefWidth="600.0" stylesheets="@../../../stylesheets/visualizerViolet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.musicvisualizer.MusicVisualizerController">
+<AnchorPane fx:id="mainPane" maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" prefHeight="500.0" prefWidth="600.0" stylesheets="@../../../stylesheets/visualizerViolet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.musicvisualizer.MusicVisualizerController">
 	<children>
 		<Label fx:id="songLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="354.0" layoutY="406.0" prefHeight="55.0" prefWidth="215.0" text="[Choose a Song]" textAlignment="CENTER" textFill="WHITE">
 			<font>
@@ -68,21 +67,7 @@
 				<SVGPath fx:id="backSVG" content="M31.1 64.03c-17.67 0-31.1 14.33-31.1 32v319.9c0 17.67 14.33 32 32 32C49.67 447.1 64 433.6 64 415.1V96.03C64 78.36 49.67 64.03 31.1 64.03zM267.5 71.41l-192 159.1C67.82 237.8 64 246.9 64 256c0 9.094 3.82 18.18 11.44 24.62l192 159.1c20.63 17.12 52.51 2.75 52.51-24.62v-319.9C319.1 68.66 288.1 54.28 267.5 71.41z" fill="#ffffffd9" scaleX="0.05" scaleY="0.05" scaleZ="0.05" />
 			</graphic>
 		</Button>
-		<Rectangle fx:id="rec" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="10.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0">
-         <rotationAxis>
-            <Point3D />
-         </rotationAxis></Rectangle>
       <ProgressBar fx:id="songProgressBar" layoutX="7.0" layoutY="377.0" prefHeight="18.0" prefWidth="587.0" progress="0.0" />
-      <Rectangle fx:id="rec1" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="60.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="108.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec3" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="157.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec4" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="208.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec5" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="258.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec6" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="306.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec7" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="357.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec8" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="412.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec9" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="462.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec10" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="509.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
-      <Rectangle fx:id="rec11" arcHeight="5.0" arcWidth="5.0" fill="#ba86c2" height="360.0" layoutX="552.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
+      <Circle fx:id="circle" centerX="50.0" centerY="10.0" fill="DODGERBLUE" layoutX="250.0" layoutY="190.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
 	</children>
 </AnchorPane>
