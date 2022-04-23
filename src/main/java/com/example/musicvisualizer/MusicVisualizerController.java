@@ -465,11 +465,7 @@ public class MusicVisualizerController implements Initializable {
 
 					max_x = Math.cos(angle) * max_length;
 					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
-					if(l == test_line) { 
-						System.out.println("test line start x,y is: " + x_start +", " + y_start
-								+ " and end x,y is: " + x_end + ", " + y_end); 
-					 //System.out.println(length_x + scale_factor * 1.5 + circle_center_x);
-						}
+
 						
 				}				  
 
@@ -494,8 +490,17 @@ public class MusicVisualizerController implements Initializable {
 	private void InitializeLines() {
 		
 		for(int i =0; i < lines.length; i++) {
+			double angle_increment = 180/ lines.length;
 			
-			Line l = new Line(0,0,100,100);
+			double degree = angle_increment * i;
+			double end_x = Math.cos(Math.toRadians(degree - 90)) * 50;
+			if (degree <= 0) {
+				double end_y = Math.sin(Math.toRadians(degree - 90)) * -50;
+			} else {
+				double end_y =  Math.sin(Math.toRadians(degree - 90)) * -50;
+			}
+			
+			Line l = new Line(0,0,end_x,end_y);
 			l.setStrokeWidth(2);
 			l.setLayoutX(circle.getCenterX());
 			l.setLayoutY(circle.getCenterY());
@@ -505,7 +510,7 @@ public class MusicVisualizerController implements Initializable {
 			
 		}
 		
-		lines[120] = test_line;
+		lines[10] = test_line;
 
 	}
 }
