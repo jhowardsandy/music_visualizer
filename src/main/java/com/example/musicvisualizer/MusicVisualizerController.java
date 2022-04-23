@@ -92,6 +92,15 @@ public class MusicVisualizerController implements Initializable {
 	
 	@FXML
 	private Line test_line;
+
+	@FXML
+	private Line line2;
+
+	@FXML
+	private Line line3;
+
+	@FXML
+	private Line line4;
 	
 	//avg_magnitude runs a rolling average 
 	double avg_magnitude = 0;
@@ -520,7 +529,11 @@ public class MusicVisualizerController implements Initializable {
 			
 		}
 		
-		lines[10] = test_line;
+		lines[0] = test_line;
+		lines[255] = line4;
+
+		lines[192] = line2;
+		lines[60] = line3;
 
 	}
 }
