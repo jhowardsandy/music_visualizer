@@ -68,6 +68,6 @@
 			</graphic>
 		</Button>
       <ProgressBar fx:id="songProgressBar" layoutX="7.0" layoutY="377.0" prefHeight="18.0" prefWidth="587.0" progress="0.0" />
-      <Circle fx:id="circle" centerX="50.0" centerY="10.0" fill="DODGERBLUE" layoutX="250.0" layoutY="190.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circle" centerX="300.0" centerY="187.5" fill="DODGERBLUE" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
 	</children>
 </AnchorPane>
