@@ -83,7 +83,7 @@ public class MusicVisualizerController implements Initializable {
 
 	@FXML
 	private Circle circle;
-	int CIRCLE_MAX_RADIUS = 120;
+	int CIRCLE_MAX_RADIUS = 80;
 	int CIRCLE_MIN_RADIUS = 40;
 	
 	@FXML
@@ -340,59 +340,63 @@ public class MusicVisualizerController implements Initializable {
 		double max_x;
 		double max_y;
 		
+		//we define max lengths because finding the window boundaries is really hard as it turns out.
+		double max_length_vertical = 100;
+		double max_length_horizontal = 200;
+		
+		
 		for (int i = 0; i < 128; i ++){
 			
 			Line l = lines[i];
-			double length_x = l.getEndX() - l.getStartX();
-			double length_y = l.getEndY() - l.getStartY();
+			double length_x = Math.abs(l.getEndX() - l.getStartX());
+			double length_y = Math.abs(l.getEndY() - l.getStartY());
 			
-			//angle is 0-180, but really we want to go from the bottom of the circle 
-			// to the top, which means that when angle = 0, it should really be 270 degrees or -pi / 2
-			// when considered from a unit circle perspective, so I create the absoluteAngle to represent that.
-			// this means any trig function needs to use absolute angle to get the correct result
+			// We want to go from the bottom of the circle 
+			// to the top, which means that when angle goes from -pi /2 (-90 degrees) to pi / 2 (90 degrees)
+			// when considered from a unit circle perspective
+			// so line 0 starts at - pi / 2
 			double angle_increment = (Math.PI / 128);
-			double angle = i * angle_increment;
-			double absoluteAngle = angle + (3 * Math.PI / 2);
+			double angle = i * angle_increment - Math.PI / 2;
 			
-			max_x = window_boundary_x * Math.cos(absoluteAngle);
-			max_y = window_boundary_y * Math.sin(absoluteAngle);
+			if(l == test_line) {
+				System.out.println("Test line is at angle: " + Math.toDegrees(angle));
+			}
+			
+			
+			max_x = window_boundary_x * Math.cos(angle);
+			max_y = window_boundary_y * Math.sin(angle);
 			// need to convert angle to radians for actual cos and sin functions)
 			double x_start, y_start, x_end, y_end;
 			
-			if(angle >= 0 && angle <= Math.toRadians(60)){
+			if(angle >= Math.toRadians(-90) && angle <= Math.toRadians(-30)){
+
+				double max_length = max_length_vertical;
 				
-				
-				x_start = circle_radius * Math.cos(absoluteAngle);
+				x_start = circle_radius * Math.cos(angle);
 				// must multiply by negative 1 here because down is positive in JavaFx;
-				y_start = -1 * circle_radius * Math.sin(absoluteAngle);
+				y_start = -1 * circle_radius * Math.sin(angle);
 				
 				
-				if(angle <= Math.toRadians(45)) {
-					// 0-45 degrees
+				if(angle <= Math.toRadians(-45)) {
+					// 270 - 315 degrees
 					// y max is window boundary
 					// and x max is determined by the tan(angle) * y max
 					max_y = window_boundary_y;
 					
 
 					y_end = Math.min(length_y + scale_factor * 1.5 + circle_center_y, max_y);
+
+					max_x = Math.cos(angle) * max_length;
 					
-					if(angle == 0) {
-						x_end = x_start;
-					} else {
-						max_x = Math.tan(absoluteAngle) * (max_y - circle_radius);
-						
-						x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
-					}
+					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);	
 					
-					if(i == 1) { 
-						System.out.println("Max y: " + max_y + "Max x: "+ max_x + "absolute angle: " + absoluteAngle);
-					}
 					
 				} else {
-					// 45- 60: x max is window boundary
+					// 315-330: x max is window boundary
 					// and y max is x_max/tan(angle)
+					
 					max_x = window_boundary_x;
-					max_y = max_x/Math.tan(absoluteAngle);
+					max_y = max_x/Math.tan(angle);
 					
 					
 					y_end = Math.min(length_y + scale_factor * 1.5 + circle_center_y, max_y);
@@ -406,58 +410,67 @@ public class MusicVisualizerController implements Initializable {
 				l.setEndY(y_end);
 				
 
-			} else if(angle > Math.toRadians(60) && angle <= Math.toRadians(120)){
+			} else if(angle > Math.toRadians(-30) && angle <= Math.toRadians(60)){
 
-				x_start = circle_radius * Math.cos(absoluteAngle);
-				y_start = circle_radius * Math.sin(absoluteAngle);
+				x_start = circle_radius * Math.cos(angle);
+
 				
+				
+				double max_length = max_length_horizontal;
 				// 60-120: x max is window boundary
 				// and y max is x_max/tan(angle)
 				max_x = window_boundary_x;
-				max_y = max_x/Math.tan(absoluteAngle);
+				max_y = max_length;
 				
 				// after 90 degrees, y becomes negative, so we need to max instead of min
-				if(angle <= Math.toRadians(90)) {
+				if(angle <= Math.toRadians(0)) {
+					y_start = circle_radius * Math.sin(angle);
 					y_end = Math.min(length_y + scale_factor * 1.5 + circle_center_y, max_y);
+					
 				} else {
-					y_end = Math.max(length_y + scale_factor * 1.5 + circle_center_y, max_y);
+					y_start =  - circle_radius * Math.sin(angle);
+					y_end = Math.max(-(length_y + scale_factor * 1.5) - circle_center_y, -1 * max_y);
 				}
 				
 				x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
-				
-				l.setStartX(x_start);
+
+
+				 				
+			l.setStartX(x_start);
 				l.setStartY(y_start);
 				l.setEndX(x_end);
 				l.setEndY(y_end);
 				
 			} else {
-				// 120-180 degrees
-				x_start = circle_radius * Math.cos(absoluteAngle);
-				y_start = circle_radius * Math.sin(absoluteAngle);
+
+				x_start = circle_radius * Math.cos(angle);
+				y_start = -1 * circle_radius * Math.sin(angle);
 				
-				if(angle <= Math.toRadians(135)) {
-					//120-135 degrees: x max is window boundary
-					// and y max is x_max/tan(angle)
+				if(angle <= Math.toRadians(45)) {
+
 					max_x = window_boundary_x;
-					max_y = max_x/Math.tan(absoluteAngle);
+					max_y = max_x/Math.tan(angle);
 					
 					
-					y_end = Math.max(length_y + scale_factor * 1.5 + circle_center_y, max_y);
-					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
+					y_end = Math.max(length_y + scale_factor * 1.5, max_y);
+					x_end = Math.min(length_x + scale_factor * 1.5, max_x);
 				}
 				else {
-					// 135-180 y_max is negative window boundary
-					// and x_max is tan(180 - angle) * y max
+					
+						// >45 degrees
+					double max_length = max_length_vertical;
 					max_y = -window_boundary_y;
 					
-					y_end = Math.max(length_y + scale_factor * 1.5 + circle_center_y, max_y);
-					
-					if(angle >= Math.toRadians(179)) {
-						x_end = x_start;
-					} else {
-						max_x = Math.tan(180 - absoluteAngle) * max_y;
-						x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
-					}	
+					y_end = Math.max(-1*(length_y + scale_factor * 1.5) - circle_center_y, max_y);
+
+					max_x = Math.cos(angle) * max_length;
+					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
+					if(l == test_line) { 
+						System.out.println("test line start x,y is: " + x_start +", " + y_start
+								+ " and end x,y is: " + x_end + ", " + y_end); 
+					 //System.out.println(length_x + scale_factor * 1.5 + circle_center_x);
+						}
+						
 				}				  
 
 				l.setStartX(x_start);
@@ -492,7 +505,7 @@ public class MusicVisualizerController implements Initializable {
 			
 		}
 		
-		lines[1] = test_line;
+		lines[120] = test_line;
 
 	}
 }
