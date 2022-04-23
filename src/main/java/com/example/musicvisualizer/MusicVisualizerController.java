@@ -91,7 +91,7 @@ public class MusicVisualizerController implements Initializable {
 	int amplitude;
 	
 	@FXML
-	private AnchorPane visualizerPane;
+	private Line test_line;
 	
 	//avg_magnitude runs a rolling average 
 	double avg_magnitude = 0;
@@ -167,12 +167,8 @@ public class MusicVisualizerController implements Initializable {
 			
 			
 			UpdateCircleRadius(scale_factor);			
-						
-			//DrawLines(scale_factor);
-
-				
 			
-			
+			DrawLines(scale_factor);
 		}
 	}
 
@@ -354,8 +350,10 @@ public class MusicVisualizerController implements Initializable {
 			// to the top, which means that when angle = 0, it should really be 270 degrees or -pi / 2
 			// when considered from a unit circle perspective, so I create the absoluteAngle to represent that.
 			// this means any trig function needs to use absolute angle to get the correct result
-			double angle = i * (Math.PI / 128);
-			double absoluteAngle = angle - (Math.PI / 2);
+			double angle_increment = (Math.PI / 128);
+			double angle = i * angle_increment;
+			double absoluteAngle = angle + (3 * Math.PI / 2);
+			
 			max_x = window_boundary_x * Math.cos(absoluteAngle);
 			max_y = window_boundary_y * Math.sin(absoluteAngle);
 			// need to convert angle to radians for actual cos and sin functions)
@@ -363,20 +361,32 @@ public class MusicVisualizerController implements Initializable {
 			
 			if(angle >= 0 && angle <= Math.toRadians(60)){
 				
-
+				
 				x_start = circle_radius * Math.cos(absoluteAngle);
-				y_start = circle_radius * Math.sin(absoluteAngle);
-
+				// must multiply by negative 1 here because down is positive in JavaFx;
+				y_start = -1 * circle_radius * Math.sin(absoluteAngle);
+				
 				
 				if(angle <= Math.toRadians(45)) {
-					//0-45 degrees
-					//y max is window boundary
+					// 0-45 degrees
+					// y max is window boundary
 					// and x max is determined by the tan(angle) * y max
 					max_y = window_boundary_y;
-					max_x = Math.tan(absoluteAngle) * max_y;
 					
+
 					y_end = Math.min(length_y + scale_factor * 1.5 + circle_center_y, max_y);
-					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
+					
+					if(angle == 0) {
+						x_end = x_start;
+					} else {
+						max_x = Math.tan(absoluteAngle) * (max_y - circle_radius);
+						
+						x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
+					}
+					
+					if(i == 1) { 
+						System.out.println("Max y: " + max_y + "Max x: "+ max_x + "absolute angle: " + absoluteAngle);
+					}
 					
 				} else {
 					// 45- 60: x max is window boundary
@@ -394,15 +404,7 @@ public class MusicVisualizerController implements Initializable {
 				l.setStartY(y_start);
 				l.setEndX(x_end);
 				l.setEndY(y_end);
-				//System.out.println("Printing Line, maybe. (" + x_start + ", " + y_start +") to (" + x_end + ", " + y_end + ")");
 				
-				// we also want to do the mirror side, so we want to draw the same line
-				// but with the x coordinate multiplied by negative 1
-//				x_end * - 1, 
-//				y_end);
-//				x_start * - 1, 
-//				y_start);
-		
 
 			} else if(angle > Math.toRadians(60) && angle <= Math.toRadians(120)){
 
@@ -428,8 +430,8 @@ public class MusicVisualizerController implements Initializable {
 				l.setEndX(x_end);
 				l.setEndY(y_end);
 				
-			} else if(angle > Math.toRadians(120) && angle <= Math.toRadians(180)){
-				
+			} else {
+				// 120-180 degrees
 				x_start = circle_radius * Math.cos(absoluteAngle);
 				y_start = circle_radius * Math.sin(absoluteAngle);
 				
@@ -446,12 +448,16 @@ public class MusicVisualizerController implements Initializable {
 				else {
 					// 135-180 y_max is negative window boundary
 					// and x_max is tan(180 - angle) * y max
-					
 					max_y = -window_boundary_y;
-					max_x = Math.tan(absoluteAngle) * max_y;
 					
 					y_end = Math.max(length_y + scale_factor * 1.5 + circle_center_y, max_y);
-					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
+					
+					if(angle >= Math.toRadians(179)) {
+						x_end = x_start;
+					} else {
+						max_x = Math.tan(180 - absoluteAngle) * max_y;
+						x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
+					}	
 				}				  
 
 				l.setStartX(x_start);
@@ -459,6 +465,15 @@ public class MusicVisualizerController implements Initializable {
 				l.setEndX(x_end);
 				l.setEndY(y_end);
 			}
+			
+			// we also want to do the mirror side, so we want to draw the same line
+			// but with the x coordinate multiplied by negative 1
+			
+			Line mirror_line = lines[i + 128];
+			mirror_line.setStartX(-x_start);
+			mirror_line.setStartY(y_start);
+			mirror_line.setEndX(-x_end);
+			mirror_line.setEndY(y_end);
 
 		}
 	}
@@ -476,8 +491,8 @@ public class MusicVisualizerController implements Initializable {
 			lines[i] = l;
 			
 		}
-		Scene scene = visualizerPane.getScene();
-		scene.
-		//DrawLines(1);
+		
+		lines[1] = test_line;
+
 	}
 }

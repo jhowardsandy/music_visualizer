@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
@@ -69,5 +70,6 @@
 		</Button>
       <ProgressBar fx:id="songProgressBar" layoutX="7.0" layoutY="377.0" prefHeight="18.0" prefWidth="587.0" progress="0.0" />
       <Circle fx:id="circle" centerX="300.0" centerY="187.5" fill="DODGERBLUE" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+      <Line fx:id="test_line" endX="100.0" endY="100.0" layoutX="300.0" layoutY="187.5" startX="30.0" startY="30.0" />
 	</children>
 </AnchorPane>
