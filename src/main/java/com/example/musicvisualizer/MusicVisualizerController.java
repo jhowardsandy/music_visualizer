@@ -489,15 +489,16 @@ public class MusicVisualizerController implements Initializable {
 	
 	private void InitializeLines() {
 		
-		for(int i =0; i < lines.length; i++) {
-			double angle_increment = 180/ lines.length;
+		for(int i =0; i < lines.length / 2; i++) {
+			double angle_increment = 180 / lines.length;
 			
 			double degree = angle_increment * i;
 			double end_x = Math.cos(Math.toRadians(degree - 90)) * 50;
+			double end_y;
 			if (degree <= 0) {
-				double end_y = Math.sin(Math.toRadians(degree - 90)) * -50;
+				end_y = Math.sin(Math.toRadians(degree - 90)) * -50;
 			} else {
-				double end_y =  Math.sin(Math.toRadians(degree - 90)) * -50;
+				end_y =  Math.sin(Math.toRadians(degree - 90)) * -50;
 			}
 			
 			Line l = new Line(0,0,end_x,end_y);
@@ -507,6 +508,15 @@ public class MusicVisualizerController implements Initializable {
 			
 			l.setStroke(Paint.valueOf("#7fb4e2"));
 			lines[i] = l;
+			
+			// Adding the line on the mirror side.
+			Line mirror_l = new Line(0,0,end_x,end_y);
+			mirror_l.setStrokeWidth(2);
+			mirror_l.setLayoutX(circle.getCenterX());
+			mirror_l.setLayoutY(circle.getCenterY());
+			
+			mirror_l.setStroke(Paint.valueOf("#7fb4e2"));
+			lines[i + lines.length / 2] = mirror_l;
 			
 		}
 		
