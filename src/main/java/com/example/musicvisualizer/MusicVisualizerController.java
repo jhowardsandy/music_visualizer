@@ -16,6 +16,7 @@ import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -329,6 +330,8 @@ public class MusicVisualizerController implements Initializable {
 	private void DrawLines(double scale_factor) {
 		
 		double circle_radius = circle.getRadius();
+		double circle_center_x = circle.getCenterX();
+		double circle_center_y = circle.getCenterY();
 //		Rectangle2D window = visualizerMediaViewer.getViewport();
 //		double window_boundary_x = window.getMaxX();
 //		double window_boundary_y = window.getMaxY();
@@ -344,16 +347,18 @@ public class MusicVisualizerController implements Initializable {
 			// need to convert angle to radians for actual cos and sin functions)
 			if(angle >= 0 && angle <= Math.toRadians(60)){
 
-				double x_start = circle_radius * Math.cos(angle - (Math.PI / 2));
-				double y_start = circle_radius * Math.sin(angle - (Math.PI / 2));
+				double x_start = circle_radius * Math.cos(angle - (Math.PI / 2)) + circle_center_x;
+				double y_start = circle_radius * Math.sin(angle - (Math.PI / 2)) + circle_center_y;
 				
-				double x_end = Math.max(length_x * scale_factor * 1, window_boundary_x);
-				double y_end = Math.max(length_y * scale_factor * 1, window_boundary_y);
+				double x_end = Math.min(length_x * scale_factor * 1 + circle_center_x, window_boundary_x);
+				double y_end = Math.min(length_y * scale_factor * 1 + circle_center_y, window_boundary_y);
 
 				l.setStartX(x_start);
 				l.setStartY(y_start);
 				l.setEndX(x_end);
 				l.setEndY(y_end);
+				System.out.println("Printing Line, maybe. (" + x_start + ", " + y_start +") to (" + x_end + ", " + y_end + ")");
+				
 				// we also want to do the mirror side, so we want to draw the same line
 				// but with the x coordinate multiplied by negative 1
 //				line_end = (x_end * - 1, y_end);
@@ -362,11 +367,11 @@ public class MusicVisualizerController implements Initializable {
 
 			} else if(angle > Math.toRadians(60) && angle <= Math.toRadians(120)){
 
-				double x_start = circle_radius * Math.cos(angle - (Math.PI / 2));
-				double y_start = circle_radius * Math.sin(angle - (Math.PI / 2));
+				double x_start = circle_radius * Math.cos(angle - (Math.PI / 2)) + circle_center_x;
+				double y_start = circle_radius * Math.sin(angle - (Math.PI / 2)) + circle_center_y;
 				
-				double x_end = Math.max(x_start + scale_factor * 1.5, window_boundary_x);
-				double y_end = Math.max(y_start + scale_factor * 1.5, window_boundary_y);
+				double x_end = Math.min(x_start + scale_factor * 1.5 + circle_center_x, window_boundary_x);
+				double y_end = Math.min(y_start + scale_factor * 1.5 + circle_center_y, window_boundary_y);
 				
 				l.setStartX(x_start);
 				l.setStartY(y_start);
@@ -375,11 +380,11 @@ public class MusicVisualizerController implements Initializable {
 				
 			} else if(angle > Math.toRadians(120) && angle <= Math.toRadians(180)){
 
-				double x_start = circle_radius * Math.cos(angle - (Math.PI / 2));
-				double y_start = circle_radius * Math.sin(angle - (Math.PI / 2));
+				double x_start = circle_radius * Math.cos(angle - (Math.PI / 2)) + circle_center_x;
+				double y_start = circle_radius * Math.sin(angle - (Math.PI / 2)) + circle_center_y;
 				
-				double x_end = Math.max(x_start + scale_factor * 2, window_boundary_x);
-				double y_end = Math.max(y_start + scale_factor * 2, window_boundary_y);
+				double x_end = Math.min(x_start + scale_factor * 2 + circle_center_x, window_boundary_x);
+				double y_end = Math.min(y_start + scale_factor * 2 + circle_center_y, window_boundary_y);
 
 				l.setStartX(x_start);
 				l.setStartY(y_start);
@@ -393,7 +398,13 @@ public class MusicVisualizerController implements Initializable {
 	private void InitializeLines() {
 		
 		for(int i =0; i < lines.length; i++) {
-			lines[i] = new Line(0,0,0,0);
+			Line l = new Line(0,0,0,0);
+			l.setStrokeWidth(2);
+			l.setLayoutX(0);
+			l.setLayoutY(0);
+			l.setStroke(Paint.valueOf("#7fb4e2"));
+			lines[i] = l;
+			
 		}
 	}
 }
