@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" prefHeight="500.0" prefWidth="600.0" stylesheets="@../../../stylesheets/visualizerViolet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.musicvisualizer.MusicVisualizerController">
+<AnchorPane fx:id="mainPane" maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" prefHeight="500.0" prefWidth="600.0" stylesheets="@../../../stylesheets/visualizerViolet.css" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.musicvisualizer.MusicVisualizerController">
 	<children>
 		<Label fx:id="songLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="354.0" layoutY="406.0" prefHeight="55.0" prefWidth="215.0" text="[Choose a Song]" textAlignment="CENTER" textFill="WHITE">
 			<font>
@@ -69,7 +69,7 @@
 			</graphic>
 		</Button>
       <ProgressBar fx:id="songProgressBar" layoutX="7.0" layoutY="377.0" prefHeight="18.0" prefWidth="587.0" progress="0.0" />
-      <Circle fx:id="circle" centerX="300.0" centerY="187.5" fill="DODGERBLUE" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circle" centerX="300.0" centerY="187.5" radius="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="circle" />
       <Line fx:id="test_line" endX="100.0" endY="100.0" layoutX="300.0" layoutY="187.5" startX="30.0" startY="30.0" />
 		<Line fx:id="line2" endX="75.0" endY="75.0" layoutX="300.0" layoutY="187.5" startX="50.0" startY="50.0" />
 		<Line fx:id="line3" endX="150.0" endY="150.0" layoutX="300.0" layoutY="187.5" startX="77.0" startY="77.0" />

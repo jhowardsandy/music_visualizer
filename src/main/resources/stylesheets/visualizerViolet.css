@@ -16,6 +16,9 @@
 .slider .thumb {
     -fx-background-color: linear-gradient(to top,DarkSlateBlue,BlueViolet);
 }
+.circle {
+    -fx-fill: linear-gradient(to top,DarkSlateBlue,BlueViolet,BlueViolet,DarkSlateBlue);
+}
 
 .progress-bar{
 -fx-accent: BlueViolet;
