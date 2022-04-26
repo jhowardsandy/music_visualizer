@@ -2,6 +2,8 @@ package com.example.musicvisualizer;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
@@ -10,6 +12,7 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
@@ -23,6 +26,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -63,9 +67,11 @@ public class MusicVisualizerController implements Initializable {
 	private ProgressBar songProgressBar;
 
 	// Filepath Variables
+	@FXML
 	private File songDirectory;
 	private File[] songFiles;
 	private ArrayList<File> songList;
+	private Stage stage;
 
 	private int songNumber;
 
@@ -286,7 +292,34 @@ public class MusicVisualizerController implements Initializable {
 	}
 
 	public void fileChooseMedia() {
-		// TODO WANTED ADDITIONAL FUNCTION
+
+		songList = new ArrayList<File>();
+
+		//listView to display at least names of songs
+		//playList = new ListView<>();
+
+		FileChooser fileChooser = new FileChooser();
+
+		//Set extension filter for MP3 files
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("mp3 files (*.mp3)", "*.mp3");
+		fileChooser.getExtensionFilters().add(extFilter);
+
+		//Show open file dialog
+		File selectedFile = fileChooser.showOpenDialog(stage);
+
+		songMedia = new Media(selectedFile.toURI().toString());
+
+		songMediaPlayer = new MediaPlayer(songMedia);
+		songLabel.setText(selectedFile.getName().replaceFirst("[.][^.]+$", ""));
+
+		songMediaPlayer.setAudioSpectrumListener(new SpektrumListener());
+
+		volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				songMediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+			}
+		});
 	}
 
 	/**
