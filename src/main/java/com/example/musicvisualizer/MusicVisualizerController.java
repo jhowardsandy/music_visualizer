@@ -37,7 +37,7 @@ import java.util.TimerTask;
  * Controller for all the music player's button functions. Built with a lot of
  * help from (<a href="https://www.youtube.com/watch?v=-D2OIekCKes">BroCode's
  * JavaFX Music Player Tutorial</a>)
- * 
+ *
  * @author Rianna M, all methods unless otherwise stated.
  */
 public class MusicVisualizerController implements Initializable {
@@ -85,11 +85,11 @@ public class MusicVisualizerController implements Initializable {
 	private Circle circle;
 	int CIRCLE_MAX_RADIUS = 80;
 	int CIRCLE_MIN_RADIUS = 40;
-	
+
 	@FXML
 	private Line[] lines = new Line[256];
 	int amplitude;
-	
+
 	@FXML
 	private Line test_line;
 
@@ -101,12 +101,14 @@ public class MusicVisualizerController implements Initializable {
 
 	@FXML
 	private Line line4;
-	
-	//avg_magnitude runs a rolling average 
+
+	//avg_magnitude runs a rolling average
 	double avg_magnitude = 0;
 	int magnitude_measure_count = 0;
-	
+
 	float smoothingFactor = 0.6f;
+
+	// This is a comment to trigger a commit
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -143,7 +145,7 @@ public class MusicVisualizerController implements Initializable {
 				songMediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
 			}
 		});
-		
+
 		InitializeLines();
 
 	}
@@ -151,12 +153,12 @@ public class MusicVisualizerController implements Initializable {
 	public class SpektrumListener implements AudioSpectrumListener {
 		@Override
 		public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
-			
+
 			//magnitude length is by default 128
 			int magntiude_arr_length = magnitudes.length;
 			double[] correctedMag = new double[magntiude_arr_length];
 			double correctedMagSum = 0;
-			
+
 			for (int i = 0; i < magntiude_arr_length; i ++) {
 
 				if (magnitudes[i] - songMediaPlayer.getAudioSpectrumThreshold() > 0) {
@@ -166,17 +168,17 @@ public class MusicVisualizerController implements Initializable {
 				}
 
 			}
-	
+
 			magnitude_measure_count++;
 			double current_mag  = correctedMagSum / magntiude_arr_length;
 			avg_magnitude = (magnitude_measure_count * avg_magnitude + current_mag)/(magnitude_measure_count + 1);
-			
+
 			double smoothed_magnitude = (current_mag) * (1-smoothingFactor) + avg_magnitude * smoothingFactor;
 			double scale_factor = smoothed_magnitude - avg_magnitude;
-			
-			
-			UpdateCircleRadius(scale_factor);			
-			
+
+
+			UpdateCircleRadius(scale_factor);
+
 			DrawLines(scale_factor);
 		}
 	}
@@ -205,9 +207,9 @@ public class MusicVisualizerController implements Initializable {
 	 * Restarts the music.
 	 */
 	public void restartMedia() {
-		
+
 		resetSongParams();
-		
+
 		songProgressBar.setProgress(0);
 		songMediaPlayer.seek(Duration.seconds(0));
 
@@ -220,9 +222,9 @@ public class MusicVisualizerController implements Initializable {
 	 * Stops the current song and then plays the previous song on the playlist.
 	 */
 	public void previousMedia() {
-		
+
 		resetSongParams();
-		
+
 		if (songNumber > 0) {
 			songNumber -= 1;
 			songMediaPlayer.stop();
@@ -254,7 +256,7 @@ public class MusicVisualizerController implements Initializable {
 	 * Stops the current song and then plays the next song on the playlist.
 	 */
 	public void nextMedia() {
-		
+
 		resetSongParams();
 
 		if (songNumber < songList.size() - 1) {
@@ -318,29 +320,29 @@ public class MusicVisualizerController implements Initializable {
 		isPlaying = false;
 		progBarTimer.cancel();
 	}
-	
+
 	private void resetSongParams() {
-		
+
 		avg_magnitude = 0;
 		magnitude_measure_count = 0;
 	}
-	
+
 	private void UpdateCircleRadius(double scale_factor) {
-		
+
 		double new_radius = scale_factor * (CIRCLE_MAX_RADIUS-CIRCLE_MIN_RADIUS) + CIRCLE_MIN_RADIUS;
-	
+
 		if(new_radius > CIRCLE_MAX_RADIUS) new_radius = CIRCLE_MAX_RADIUS;
 		if (new_radius < CIRCLE_MIN_RADIUS) new_radius = CIRCLE_MIN_RADIUS;
 		circle.setRadius(new_radius);
 	}
-	
+
 	private void DrawLines(double scale_factor) {
-		
+
 		double circle_radius = circle.getRadius();
 		double circle_center_x = circle.getCenterX() + 150;
 		double circle_center_y = circle.getCenterY() + 150;
 
-		
+
 		//figure out a way to access the boundaries intelligently from accessing an anchorpane that covers the mediaviewer
 		// boundary works both directions, so it's -300 to 300
 		// and -187.5 to 187.5
@@ -348,145 +350,145 @@ public class MusicVisualizerController implements Initializable {
 		double window_boundary_y = 187.5;
 		double max_x;
 		double max_y;
-		
+
 		//we define max lengths because finding the window boundaries is really hard as it turns out.
 		double max_length_vertical = 100;
 		double max_length_horizontal = 200;
-		
-		
+
+
 		for (int i = 0; i < 128; i ++){
-			
+
 			Line l = lines[i];
 			double length_x = Math.abs(l.getEndX() - l.getStartX());
 			double length_y = Math.abs(l.getEndY() - l.getStartY());
-			
-			// We want to go from the bottom of the circle 
+
+			// We want to go from the bottom of the circle
 			// to the top, which means that when angle goes from -pi /2 (-90 degrees) to pi / 2 (90 degrees)
 			// when considered from a unit circle perspective
 			// so line 0 starts at - pi / 2
 			double angle_increment = (Math.PI / 128);
 			double angle = i * angle_increment - Math.PI / 2;
-			
+
 			if(l == test_line) {
 				System.out.println("Test line is at angle: " + Math.toDegrees(angle));
 			}
-			
-			
+
+
 			max_x = window_boundary_x * Math.cos(angle);
 			max_y = window_boundary_y * Math.sin(angle);
 			// need to convert angle to radians for actual cos and sin functions)
 			double x_start, y_start, x_end, y_end;
-			
+
 			if(angle >= Math.toRadians(-90) && angle <= Math.toRadians(-30)){
 
 				double max_length = max_length_vertical;
-				
+
 				x_start = circle_radius * Math.cos(angle);
 				// must multiply by negative 1 here because down is positive in JavaFx;
 				y_start = -1 * circle_radius * Math.sin(angle);
-				
-				
+
+
 				if(angle <= Math.toRadians(-45)) {
 					// 270 - 315 degrees
 					// y max is window boundary
 					// and x max is determined by the tan(angle) * y max
 					max_y = window_boundary_y;
-					
+
 
 					y_end = Math.min(length_y + scale_factor * 1.5 + circle_center_y, max_y);
 
 					max_x = Math.cos(angle) * max_length;
-					
-					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);	
-					
-					
+
+					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
+
+
 				} else {
 					// 315-330: x max is window boundary
 					// and y max is x_max/tan(angle)
-					
+
 					max_x = window_boundary_x;
 					max_y = max_x/Math.tan(angle);
-					
-					
+
+
 					y_end = Math.min(length_y + scale_factor * 1.5 + circle_center_y, max_y);
 					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
-					
+
 				}
 
 				l.setStartX(x_start);
 				l.setStartY(y_start);
 				l.setEndX(x_end);
 				l.setEndY(y_end);
-				
+
 
 			} else if(angle > Math.toRadians(-30) && angle <= Math.toRadians(60)){
 
 				x_start = circle_radius * Math.cos(angle);
 
-				
-				
+
+
 				double max_length = max_length_horizontal;
 				// 60-120: x max is window boundary
 				// and y max is x_max/tan(angle)
 				max_x = window_boundary_x;
 				max_y = max_length;
-				
+
 				// after 90 degrees, y becomes negative, so we need to max instead of min
 				if(angle <= Math.toRadians(0)) {
 					y_start = circle_radius * Math.sin(angle);
 					y_end = Math.min(length_y + scale_factor * 1.5 + circle_center_y, max_y);
-					
+
 				} else {
 					y_start =  - circle_radius * Math.sin(angle);
 					y_end = Math.max(-(length_y + scale_factor * 1.5) - circle_center_y, -1 * max_y);
 				}
-				
+
 				x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
 
 
-				 				
+
 			l.setStartX(x_start);
 				l.setStartY(y_start);
 				l.setEndX(x_end);
 				l.setEndY(y_end);
-				
+
 			} else {
 
 				x_start = circle_radius * Math.cos(angle);
 				y_start = -1 * circle_radius * Math.sin(angle);
-				
+
 				if(angle <= Math.toRadians(45)) {
 
 					max_x = window_boundary_x;
 					max_y = max_x/Math.tan(angle);
-					
-					
+
+
 					y_end = Math.max(length_y + scale_factor * 1.5, max_y);
 					x_end = Math.min(length_x + scale_factor * 1.5, max_x);
 				}
 				else {
-					
+
 						// >45 degrees
 					double max_length = max_length_vertical;
 					max_y = -window_boundary_y;
-					
+
 					y_end = Math.max(-1*(length_y + scale_factor * 1.5) - circle_center_y, max_y);
 
 					max_x = Math.cos(angle) * max_length;
 					x_end = Math.min(length_x + scale_factor * 1.5 + circle_center_x, max_x);
 
-						
-				}				  
+
+				}
 
 				l.setStartX(x_start);
 				l.setStartY(y_start);
 				l.setEndX(x_end);
 				l.setEndY(y_end);
 			}
-			
+
 			// we also want to do the mirror side, so we want to draw the same line
 			// but with the x coordinate multiplied by negative 1
-			
+
 			Line mirror_line = lines[i + 128];
 			mirror_line.setStartX(-x_start);
 			mirror_line.setStartY(y_start);
@@ -495,12 +497,12 @@ public class MusicVisualizerController implements Initializable {
 
 		}
 	}
-	
+
 	private void InitializeLines() {
-		
+
 		for(int i =0; i < lines.length / 2; i++) {
 			double angle_increment = 180 / lines.length;
-			
+
 			double degree = angle_increment * i;
 			double end_x = Math.cos(Math.toRadians(degree - 90)) * 50;
 			double end_y;
@@ -509,26 +511,26 @@ public class MusicVisualizerController implements Initializable {
 			} else {
 				end_y =  Math.sin(Math.toRadians(degree - 90)) * -50;
 			}
-			
+
 			Line l = new Line(0,0,end_x,end_y);
 			l.setStrokeWidth(2);
 			l.setLayoutX(circle.getCenterX());
 			l.setLayoutY(circle.getCenterY());
-			
+
 			l.setStroke(Paint.valueOf("#7fb4e2"));
 			lines[i] = l;
-			
+
 			// Adding the line on the mirror side.
 			Line mirror_l = new Line(0,0,end_x,end_y);
 			mirror_l.setStrokeWidth(2);
 			mirror_l.setLayoutX(circle.getCenterX());
 			mirror_l.setLayoutY(circle.getCenterY());
-			
+
 			mirror_l.setStroke(Paint.valueOf("#7fb4e2"));
 			lines[i + lines.length / 2] = mirror_l;
-			
+
 		}
-		
+
 		lines[0] = test_line;
 		lines[255] = line4;
 
