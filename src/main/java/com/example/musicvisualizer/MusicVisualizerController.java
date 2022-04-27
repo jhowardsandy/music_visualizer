@@ -402,9 +402,9 @@ public class MusicVisualizerController implements Initializable {
 			double angle_increment = (Math.PI / 128);
 			double angle = i * angle_increment - Math.PI / 2;
 
-			if(l == test_line) {
-				System.out.println("Test line is at angle: " + Math.toDegrees(angle));
-			}
+//			if(l == test_line) {
+//				System.out.println("Test line is at angle: " + Math.toDegrees(angle));
+//			}
 
 
 			max_x = window_boundary_x * Math.cos(angle);
